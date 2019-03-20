@@ -1,15 +1,13 @@
-
-
-var socket = io();
-
-let gameScene = new Phaser.Scene('Game');
-
 let config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
+    parent: 'phaser-mineSweeper',
     width: 800,
     height: 600,
-    scene: gameScene
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
 };
 
 let game = new Phaser.Game(config);
@@ -19,5 +17,10 @@ function preload() {
 }
 
 function create() {
+    let socket = io();
     console.log('create');
+}
+
+function update() {
+    
 }
