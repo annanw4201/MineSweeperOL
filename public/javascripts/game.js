@@ -17,8 +17,20 @@ function preload() {
 }
 
 function create() {
-    let socket = io();
     console.log('create');
+    this.socket = io();
+    this.socket.on('currentPlayer', function (players) {
+        console.log(players);
+        var htmlStr = "";
+        Object.keys(players).forEach(element => {
+            htmlStr = htmlStr + '<li>' + players[element].name + '</li>';
+        });
+        $('#players_display').html(htmlStr);
+    });
+    this.socket.on('newPlayer', function(player) {
+        console.log(player);
+        $('#players_display').append('<li>' + player.name + '</i>');
+    });
 }
 
 function update() {
