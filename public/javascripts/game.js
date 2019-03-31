@@ -9,8 +9,11 @@ let config = {
         update: update
     }
 };
-
+// create the game
 let game = new Phaser.Game(config);
+
+const hiddenTile = 25;
+const star = 2;
 
 function preload() {
     console.log('preload');
@@ -24,12 +27,27 @@ function create() {
     this.add.image(400, 300, 'sky');
     const map = this.make.tilemap({key: "map", tileWidth: 100, tileHeight: 100});
     const tileSet = map.addTilesetImage("tilesheet", "tiles");
-    var layer;
-    for (let i = 0; i < map.layers.length; ++i) {
-        layer = map.createStaticLayer(i, tileSet, 100, 0);
+    
+    // create the dynamic layer (layerID, tileSet, x, y)
+    var layer = map.createDynamicLayer(0, tileSet, 100, 0);
+    // initialize board to be hidden
+    for (let i = 0; i < map.width; ++i) {
+        for (let j = 0; j < map.height; ++j) {
+            map.putTileAt(hiddenTile, i, j);
+        }
     }
-    
-    
+
+    // randomize the mines indexex, and plant mines there
+    const numberOfMines = 5;
+    const totalCells = map.height * map.width;
+    var minesList = [];
+    for (let i = 0; i < numberOfMines; ++i) {
+        var index = Phaser.Math.Between(0, totalCells);
+        minesList.push(index);
+    }
+
+
+
     socketSetup();
 }
 
